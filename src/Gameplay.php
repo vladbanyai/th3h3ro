@@ -10,10 +10,17 @@ class Gameplay
 
     private $_config;
 
+    private $_maxIterations = 20;
+
+    private $_iteration=0;
+
     public function __construct($config) {
         $this->_config = $config;
     }
 
+    /**
+     * Create fighters, should be done in a different class
+     */
     public function createFighters(){
         $config = file_get_contents($this->_config);
         $config = json_decode($config);
@@ -30,7 +37,6 @@ class Gameplay
             
             if(isset($player->skills) && $player->skills){
                 foreach($player->skills as $skillClass){
-                    var_dump($skillClass);
                     $skillClass = "\\App\\" . $skillClass;
                     $skill = new $skillClass;
                     
@@ -39,7 +45,6 @@ class Gameplay
             }
             
             $this->addFighter($character);
-            
 
         }
     }
@@ -48,17 +53,19 @@ class Gameplay
         $this->fighters[] = $character;
     }
 
+    /**
+     * Run the game
+     */
     public function fight() {
-        $this->createFighters();
         echo "----------Fight Starts------------" . PHP_EOL;
         echo $this->fighters[0]->stats() . PHP_EOL;
         echo $this->fighters[1]->stats() . PHP_EOL;
 
         $this->setStartingPosition();
         
-        $firstIteration = true;
         do{
-            if($firstIteration){
+            $this->_iteration++;
+            if($this->_iteration == 1){
                 echo $this->fighters[0]->getName() . ' starts' . PHP_EOL . PHP_EOL;
                 $firstIteration = false;
             }
@@ -77,6 +84,9 @@ class Gameplay
         while($this->_gameOn);
     }
 
+    /**
+     * Set the starting position of players based on their speed/luck
+     */
     private function setStartingPosition() {
         $order = function($a, $b){
             if($a->getSpeed() == $b->getSpeed())
@@ -86,7 +96,15 @@ class Gameplay
         usort($this->fighters, $order);
     }
 
+    /**
+     * Check if game ended either by a player winning or by exhausting moves
+     */
     private function checkEndGame() {
+        if($this->_iteration === $this->_maxIterations)
+        {
+            echo 'There is no winner this time' . PHP_EOL;
+            $this->_gameOn = false;
+        }
         foreach($this->fighters as $fighter)
             if($fighter->getHealth() == 0){
                 echo $fighter->getName() . ' lost.' . PHP_EOL;

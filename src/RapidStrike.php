@@ -2,16 +2,17 @@
 
 namespace App;
 
-class RapidStrike{
-    private $_isDefensive = false;
+class RapidStrike extends Skill{
 
-    private $_isOffensive = true;
+    protected $_isDefensive = false;
 
-    private $_luck = 10;
+    protected $_isOffensive = true;
 
-    private $_increaseDamage = 100;
+    protected $_luck = 10;
 
-    private $_name = 'Rapid Strike';
+    protected $_increaseDamage = 100;
+
+    protected $_name = 'Rapid Strike';
 
     public function applySkill($name, $damage){
         if (rand(1,100) < $this->_luck){
@@ -19,13 +20,5 @@ class RapidStrike{
             return $damage + ($damage * $this->_increaseDamage / 100);
         }
         return $damage;
-    }
-
-    public function isDefensive(){
-        return $this->_isDefensive;
-    }
-
-    public function isOffensive(){
-        return $this->_isOffensive;
     }
 }

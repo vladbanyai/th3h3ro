@@ -2,16 +2,16 @@
 
 namespace App;
 
-class MagicShield{
-    private $_isDefensive = true;
+class MagicShield extends Skill{
+    protected $_isDefensive = true;
 
-    private $_isOffensive = false;
+    protected $_isOffensive = false;
 
-    private $_luck = 20;
+    protected $_luck = 20;
 
-    private $_reduceDamage = 50;
+    protected $_reduceDamage = 50;
 
-    private $_name = 'Magic Shield';
+    protected $_name = 'Magic Shield';
 
     public function applySkill($name, $damage){
         if (rand(1,100) < $this->_luck){
@@ -19,13 +19,5 @@ class MagicShield{
             return round($damage/2);
         }
         return $damage;
-    }
-
-    public function isDefensive(){
-        return $this->_isDefensive;
-    }
-
-    public function isOffensive(){
-        return $this->_isOffensive;
     }
 }
