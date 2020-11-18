@@ -51,7 +51,7 @@ class GamePlayTest extends TestCase
 
     public function testMagicShield()
     {
-        $player1 = new Character('Beast', 70, 30, 20, 20, 10);
+        $player1 = new Character('Beast', 70, 40, 20, 20, 10);
         $player2 = new Character('Hero', 80, 40, 30, 15, 15);
         $skill = new MagicShield();
         $skill->setLuck(100);

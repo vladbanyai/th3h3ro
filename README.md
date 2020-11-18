@@ -13,7 +13,7 @@ php public/index.php
 ## Run the tests
 
 ```
-vendor/bin/phpunit
+vendor/bin/phpunit tests
 ```
 
 ## Config

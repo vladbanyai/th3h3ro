@@ -36,9 +36,9 @@ class Gameplay
             $character = new Character($player->name, $health, $strength, $defense, $speed, $luck);
             
             if(isset($player->skills) && $player->skills){
-                foreach($player->skills as $skillClass){
-                    $skillClass = "\\App\\" . $skillClass;
-                    $skill = new $skillClass;
+                foreach($player->skills as $skill){
+                    $skillFactory = new SkillFactory();
+                    $skill = $skillFactory->createSkill($skill);
                     
                     $character->addSkill($skill);
                 }
@@ -71,8 +71,7 @@ class Gameplay
             }
 
             if(!$this->fighters[1]->doYouFeelLuckyPunk()){
-                $damage = $this->fighters[0]->atack();
-                $this->fighters[1]->damage($damage, $this->fighters[0]->getDefence());
+                $this->fighters[1]->damage($this->fighters[0]->atack());
             }
             else
                 echo $this->fighters[0]->getName() . ' misses his punch' . PHP_EOL;

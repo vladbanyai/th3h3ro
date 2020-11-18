@@ -53,6 +53,10 @@ class Character
         return $this->_luck;
     }
 
+    public function setLuck($luck) {
+        $this->_luck = $luck;
+    }
+
     public function addSkill($skill) {
         return $this->_skills[] = $skill;
     }
@@ -68,8 +72,8 @@ class Character
         return $damage;
     }
 
-    public function damage($atack, $defence) {
-        $damage = $atack - $defence;
+    public function damage($atack) {
+        $damage = $atack - $this->_defence;
 
         //check defence skills
         foreach($this->_skills as $skill){
